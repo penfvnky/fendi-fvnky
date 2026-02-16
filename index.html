@@ -3,181 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obsidian Haven | Luxury Experience</title>
+    <title>THE NEXUS ELITE | Multisensory Experience</title>
     <style>
-        /* --- CSS Reset & Styles --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background-color: #0a0a0a;
-            color: #f4f4f4;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* --- Global Reset & Base --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        html, body {
+            height: 100%;
             overflow-x: hidden;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #000;
+            color: #f0f0f0;
         }
 
-        /* --- Tipografi & Warna --- */
-        .gold { color: #d4af37; }
+        /* --- Custom Cursor --- */
+        .custom-cursor {
+            width: 25px; height: 25px;
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+            transition: transform 0.1s ease-out, background-color 0.3s;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: exclusion;
+        }
 
         /* --- Navbar --- */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
+            position: fixed; top: 0; width: 100%;
+            padding: 25px 80px;
+            display: flex; justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 10, 0.8);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            z-index: 10000;
+            border-bottom: 0.5px solid rgba(212, 175, 55, 0.1);
         }
-        .logo { font-size: 24px; font-weight: bold; letter-spacing: 3px; color: white; }
+        .logo { font-size: 24px; font-weight: 200; letter-spacing: 8px; text-transform: uppercase; color: #fff; }
+        
+        .nav-right { display: flex; align-items: center; }
+        
         .nav-links a {
-            text-decoration: none;
-            color: #f4f4f4;
-            margin-left: 30px;
-            text-transform: uppercase;
-            font-size: 13px;
-            letter-spacing: 2px;
-            transition: 0.3s;
+            text-decoration: none; color: #f0f0f0;
+            margin-left: 40px; text-transform: uppercase;
+            font-size: 10px; letter-spacing: 3px;
+            transition: all 0.3s;
         }
         .nav-links a:hover { color: #d4af37; }
+
+        /* --- Audio Button Style --- */
+        #audio-control {
+            background: none; border: 1px solid #d4af37;
+            color: #d4af37; padding: 8px 15px;
+            font-size: 10px; text-transform: uppercase;
+            letter-spacing: 2px; cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 40px; border-radius: 20px;
+        }
+        #audio-control:hover { background: #d4af37; color: #000; }
 
         /* --- Hero Section --- */
         .hero {
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
             text-align: center;
             position: relative;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+        #particles-js { position: absolute; width: 100%; height: 100%; z-index: 1; }
+        .video-bg {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; z-index: 0;
+            filter: brightness(0.25);
         }
 
+        .hero-content { z-index: 10; transform: translateZ(50px); }
         .hero-content h1 {
-            font-size: 5vw;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: fadeInDown 1.5s ease-out forwards;
+            font-size: 7vw; line-height: 1;
+            margin-bottom: 30px; text-transform: uppercase;
+            letter-spacing: 15px; color: #fff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.4);
         }
-
         .hero-content p {
-            font-size: 1.2vw;
-            margin-bottom: 40px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            opacity: 0;
-            animation: fadeIn 1.5s ease-out 0.5s forwards;
-            color: #ccc;
-        }
-
-        .cta-button {
-            padding: 15px 40px;
-            border: 1px solid #d4af37;
-            color: #d4af37;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.4s ease;
-            opacity: 0;
-            animation: fadeInUp 1.5s ease-out 1s forwards;
-            display: inline-block;
-        }
-
-        .cta-button:hover {
-            background-color: #d4af37;
-            color: #0a0a0a;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
-        }
-
-        /* --- Animasi Keyframes --- */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* --- Efek Scroll --- */
-        .reveal {
-            position: relative;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- Content Section --- */
-        .section {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 15%;
-            text-align: center;
+            font-size: 1.2vw; margin-bottom: 50px;
+            letter-spacing: 8px; color: #ccc;
         }
         
-        .section h2 { font-size: 3vw; margin-bottom: 20px; }
-        .section p { font-size: 1.1vw; color: #aaa; line-height: 1.6; max-width: 700px; }
+        .cta-button {
+            padding: 18px 50px;
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            text-decoration: none; text-transform: uppercase;
+            letter-spacing: 4px; font-size: 12px;
+            transition: all 0.5s;
+            display: inline-block;
+        }
+        .cta-button:hover { background: #d4af37; color: #000; box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
+
+        /* --- Section --- */
+        .section {
+            height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            padding: 0 15%;
+            background: #050505;
+            opacity: 0; transform: translateY(100px) rotateX(15deg);
+            transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .section.active { opacity: 1; transform: translateY(0) rotateX(0deg); }
+        .section h2 { font-size: 4vw; color: #d4af37; margin-bottom: 30px; }
+        .section p { font-size: 1.2vw; color: #aaa; line-height: 1.8; max-width: 800px; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <div class="custom-cursor"></div>
+
+    <audio id="bg-audio" loop>
+        <source src="https://actions.google.com/sounds/v1/ambiences/luxury_hotel_lobby.ogg" type="audio/ogg">
+    </audio>
+
     <nav>
-        <div class="logo">OBSIDIAN</div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Services</a>
-            <a href="#">Contact</a>
+        <div class="logo">THE NEXUS ELITE</div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#">Gateway</a>
+                <a href="#">Legacy</a>
+            </div>
+            <button id="audio-control">Music: OFF</button>
         </div>
     </nav>
 
     <section class="hero">
+        <div id="particles-js"></div>
+        <video autoplay loop muted playsinline class="video-bg">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-luxury-modern-house-with-pool-and-sunset-view-41235-large.mp4" type="video/mp4">
+        </video>
         <div class="hero-content">
-            <h1>Experience<br><span class="gold">Unmatched Luxury</span></h1>
-            <p>Where Elegance Meets Perfection</p>
+            <h1>UNMATCHED<br><span style="color: #d4af37;">PRECISION</span></h1>
+            <p>A Symphony of Elegance and Technology</p>
             <a href="#" class="cta-button">Explore</a>
         </div>
     </section>
 
     <section class="section">
-        <div class="reveal">
-            <h2 class="gold">Elevated Living</h2>
-            <p>Dapatkan pengalaman hidup yang sesungguhnya dengan fasilitas kelas dunia yang dirancang khusus untuk kenyamanan dan privasi Anda. Temukan kemewahan dalam setiap detailnya.</p>
+        <div style="text-align: center;">
+            <h2>The Art of Living</h2>
+            <p>Pengalaman multisensori yang dirancang khusus untuk mereka yang menuntut kesempurnaan. Setiap elemen, dari visual hingga suara, dikurasi untuk memberikan suasana puncak kemewahan.</p>
         </div>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // JS untuk Animasi saat Scroll
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
+        // --- Kustom Kursor ---
+        const customCursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', e => {
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top = e.clientY + 'px';
+        });
 
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
+        // --- Audio Control ---
+        const audio = document.getElementById('bg-audio');
+        const audioBtn = document.getElementById('audio-control');
+        let isPlaying = false;
 
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
+        audioBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                audioBtn.textContent = 'Music: OFF';
+            } else {
+                audio.play();
+                audioBtn.textContent = 'Music: ON';
             }
-        }
+            isPlaying = !isPlaying;
+        });
 
-        window.addEventListener("scroll", reveal);
+        // --- Animasi Scroll (3D) ---
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- Particles.js ---
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#d4af37" },
+                "opacity": { "value": 0.3, "random": false },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#d4af37", "opacity": 0.2, "width": 1 },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "out_mode": "out" }
+            },
+            "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" } } }
+        });
     </script>
 </body>
 </html>
