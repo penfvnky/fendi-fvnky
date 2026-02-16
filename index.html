@@ -3,85 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Data Diri</title>
+    <title>Info Jaringan & Animasi</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
         }
-        .container {
-            background-color: white;
-            width: 500px;
-            padding: 30px;
+
+        /* --- STYLING INFO JARINGAN --- */
+        .info-container {
+            background-color: #2c3e50;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 600px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        h2 {
-            text-align: center;
-            color: #333;
+        h2 { text-align: center; color: #3498db; }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #455a64;
+            padding: 10px 0;
         }
-        .profile-img {
-            display: block;
-            margin: 0 auto 20px auto;
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            background-color: #ccc; /* Placeholder warna */
-            object-fit: cover;
+        .label { font-weight: bold; color: #ecf0f1; }
+
+        /* --- STYLING ANIMASI MOTHERBOARD (CSS) --- */
+        .scene {
+            width: 200px;
+            height: 200px;
+            perspective: 600px;
         }
-        table {
+
+        .motherboard {
             width: 100%;
-            margin-top: 20px;
+            height: 100%;
+            background: linear-gradient(45deg, #004d40 0%, #00695c 100%);
+            border: 5px solid #00251a;
+            border-radius: 10px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateBoard 10s infinite linear;
         }
-        table td {
-            padding: 10px;
-            vertical-align: top;
+
+        /* Detail Motherboard (Hiasan) */
+        .motherboard::before {
+            content: '';
+            position: absolute;
+            top: 20px; left: 20px;
+            width: 50px; height: 50px;
+            background-color: #00251a;
+            border-radius: 5px;
         }
-        .label {
-            font-weight: bold;
-            color: #555;
-            width: 30%;
+        .motherboard::after {
+            content: '';
+            position: absolute;
+            bottom: 20px; right: 20px;
+            width: 30px; height: 70px;
+            background-color: #00251a;
+        }
+
+        @keyframes rotateBoard {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>Data Diri</h2>
+    <div class="info-container">
+        <h2>Informasi Jaringan Komputer</h2>
         
-        <img src="foto-profil.jpg" alt="Foto Profil" class="profile-img">
-
-        <table>
-            <tr>
-                <td class="label">Nama Lengkap</td>
-                <td>: Fendi Fvnky</td>
-            </tr>
-            <tr>
-                <td class="label">Tempat, Tgl Lahir</td>
-                <td>: Jakarta, 01 Januari 2000</td>
-            </tr>
-            <tr>
-                <td class="label">Alamat</td>
-                <td>: Jl. Contoh No. 123, Kota</td>
-            </tr>
-            <tr>
-                <td class="label">Email</td>
-                <td>: fendi@email.com</td>
-            </tr>
-            <tr>
-                <td class="label">Pendidikan</td>
-                <td>: Sarjana Ilmu Komputer</td>
-            </tr>
-            <tr>
-                <td class="label">Hobi</td>
-                <td>: Coding, Gaming, Traveling</td>
-            </tr>
-        </table>
+        <div class="info-item">
+            <span class="label">IP Address</span>
+            <span id="ip">Memuat...</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Browser</span>
+            <span id="browser">Memuat...</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Platform</span>
+            <span id="platform">Memuat...</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Status Koneksi</span>
+            <span id="status">Memuat...</span>
+        </div>
     </div>
+
+    <div class="scene">
+        <div class="motherboard"></div>
+    </div>
+    <p>Simulasi Motherboard Berputar</p>
+
+    <script>
+        // Mengisi info dasar menggunakan JavaScript
+        document.getElementById('browser').innerText = navigator.userAgent.split(' ')[0];
+        document.getElementById('platform').innerText = navigator.platform;
+        document.getElementById('status').innerText = navigator.onLine ? "Online" : "Offline";
+        
+        // Catatan: IP Publik membutuhkan API eksternal
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip').innerText = data.ip;
+            })
+            .catch(error => {
+                document.getElementById('ip').innerText = "Gagal mengambil IP";
+            });
+    </script>
 
 </body>
 </html>
